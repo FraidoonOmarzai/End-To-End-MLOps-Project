@@ -1,0 +1,9 @@
+base:
+  project: Stroke Predictor
+  random_state: 42
+  target_col: stroke
+
+data_ingestion:
+  s3_source: https://github.com/FraidoonOmarzai/data/raw/main/stroke-data.zip
+  zip_file_path: data/raw/stroke-data.zip
+  unzip_file_path: data/raw

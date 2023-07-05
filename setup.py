@@ -12,6 +12,9 @@ setuptools.setup(
     version=__version__,
     author=AUTHOR_USER_NAME,
     description="Implementation of mlops projects",
-    package_dir={"": "src"},
-    packages=setuptools.find_packages(where="src")
+    # package_dir={"": "src"},
+    # packages=setuptools.find_packages(where="src"),
+    packages=setuptools.find_packages(),
+
+
 )

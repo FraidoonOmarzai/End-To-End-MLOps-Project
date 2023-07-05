@@ -1,0 +1,8 @@
+stages:
+  data_ingestion:
+    cmd: python3 src/pipeline/stage_01_data_ingestion.py
+    deps:
+    - src/pipeline/stage_01_data_ingestion.py
+    outs:
+    - data/raw/stroke-data.zip
+    - data/raw/healthcare-dataset-stroke-data.csv

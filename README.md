@@ -33,3 +33,15 @@ conda create -n mlops-env python=3.9 -y
 conda activate mlops-env
 pip install -r requirements.txt
 ```
+
+4. **Data Ingesstion Section**
+ * constants added
+ * params.yaml defined
+ * 01_data_ingeston.ipynb created
+ * stage_01_data_ingeston.py created
+ * data downloaded
+
+5. **DVC Section**
+ * run dvc init
+ * define data_ingeston stage in dvc.yaml
+ * run dvc repro

@@ -1,0 +1,34 @@
+schema: '2.0'
+stages:
+  load_data:
+    cmd: python3 src/pipeline/stage_01_data_ingestion.py
+    deps:
+    - path: src/__init__.py
+      md5: e756dce6e800e038455eea0d88a15558
+      size: 443
+    - path: src/constants/__init__.py
+      md5: 8b04f2dce87f47ff4a7d8769ccacaa8e
+      size: 64
+    - path: src/utils/common.py
+      md5: 75fd83bd93346882286c13e69326dcbe
+      size: 803
+    outs:
+    - path: data/raw/healthcare-dataset-stroke-data.csv
+      md5: 3f25a4c2f2963d969e1a156c08968577
+      size: 316971
+    - path: data/raw/stroke-data.zip
+      md5: 4a60c0849baba34017f32ae754fda827
+      size: 67292
+  data_ingestion:
+    cmd: python3 src/pipeline/stage_01_data_ingestion.py
+    deps:
+    - path: src/pipeline/stage_01_data_ingestion.py
+      md5: 2762e844c85d452b33a614bc94f0ec64
+      size: 1414
+    outs:
+    - path: data/raw/healthcare-dataset-stroke-data.csv
+      md5: 3f25a4c2f2963d969e1a156c08968577
+      size: 316971
+    - path: data/raw/stroke-data.zip
+      md5: 4a60c0849baba34017f32ae754fda827
+      size: 67292
