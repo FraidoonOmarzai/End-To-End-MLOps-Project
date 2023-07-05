@@ -34,14 +34,18 @@ conda activate mlops-env
 pip install -r requirements.txt
 ```
 
-4. **Data Ingesstion Section**
+4. define logger (**The Logging** is a means of tracking events that happen when some software runs)
+
+5. define utils (**The utils.py** makes it easy to execute common tasks in Python scripts)
+
+6. **Data Ingesstion Section**
  * constants added
  * params.yaml defined
  * 01_data_ingeston.ipynb created
  * stage_01_data_ingeston.py created
  * data downloaded
 
-5. **DVC Section**
+7. **DVC Section**
  * run dvc init
  * define data_ingeston stage in dvc.yaml
  * run dvc repro
