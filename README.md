@@ -49,3 +49,15 @@ pip install -r requirements.txt
  * run dvc init
  * define data_ingeston stage in dvc.yaml
  * run dvc repro
+
+8. **EDA**
+ * load the dataset
+ * statistical checking
+ * checking number of unique values for each columns
+ * check data type
+ * check duplicate values
+ * check null values
+ * check balance of the dataset
+ * check outliers
+ * visualization
+ * checking correlation
