@@ -67,3 +67,16 @@ pip install -r requirements.txt
 * 02_data_preprocessing.ipynb added
 * stage_02_data_preprocessing.py created
 * data_preprocessing stage added to dvc.yaml
+
+10. **Model Training Section**
+* define params.yaml
+* created 03_model_training.ipynb
+* mlflow added to the project
+```bash
+mlflow server \
+    --backend-store-uri sqlite:///mlflow.db \
+    --default-artifact-root ./artifacts \
+    --host 0.0.0.0 -p 1234
+```
+* stage_03_training_and_evaluation.py created
+* model_train_evaluation stage added to dvc pipeline

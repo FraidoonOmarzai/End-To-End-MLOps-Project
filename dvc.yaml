@@ -14,3 +14,10 @@ stages:
     outs:
     - data/processed/train_stroke.csv
     - data/processed/test_stroke.csv
+
+  model_train_evaluation:
+    cmd: python3 src/pipeline/stage_03_training_and_evaluation.py
+    deps:
+    - src/pipeline/stage_03_training_and_evaluation.py
+    - data/processed/train_stroke.csv
+    - data/processed/test_stroke.csv

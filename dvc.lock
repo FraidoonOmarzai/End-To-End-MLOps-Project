@@ -45,3 +45,9 @@ stages:
     - path: data/processed/train_stroke.csv
       md5: 31a0447a5703c3f28b57fbe810aae8b9
       size: 249433
+  model_train_evaluation:
+    cmd: python3 src/pipeline/stage_03_training_and_evaluation.py
+    deps:
+    - path: src/pipeline/stage_03_training_and_evaluation.py
+      md5: 7f6cc435277a05387dc874a983e080f6
+      size: 4896
