@@ -117,7 +117,9 @@ class Model_train:
             logger.info("roc_auc_curve.png added")
 
             # Save the model using mlflow.<framework>.log_model()
-            mlflow.sklearn.log_model(model, 'models_mlflow')
+            mlflow.sklearn.log_model(sk_model=model, 
+                                     artifact_path='models_mlflow', 
+                                     registered_model_name=self.config.mlflow_config.registered_model_name)
             logger.info("Model saved")
 
 

@@ -80,3 +80,13 @@ mlflow server \
 ```
 * stage_03_training_and_evaluation.py created
 * model_train_evaluation stage added to dvc pipeline
+
+
+11. **Log Prediction Model**
+* params.yaml defined
+* 04_log_production_model.ipynb created
+* model_regiseter_name added to stage_03_training_and_evaluation.py
+* stage_04_log_production_model.py created
+* logg_production_model stage added to dvc
+* model with best accuracy loaded in mlflow and saved
+
