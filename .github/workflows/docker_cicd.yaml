@@ -21,8 +21,8 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build -t my-docker-username/my-docker-image-name:${{ github.sha }} .
+        docker build -t my-docker-username/stroke_predictor .
 
     - name: Push Docker image
       run: |
-        docker push my-docker-username/my-docker-image-name:${{ github.sha }}
+        docker push my-docker-username/stroke_predictor
