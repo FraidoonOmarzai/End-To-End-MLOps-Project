@@ -96,3 +96,9 @@ mlflow server \
  * define app.py
  * run the app
 
+13. **Docker And CICD**
+* define the docker file
+* create .github/workflows/docker_cicd.yaml and define it
+* DOCKER_USERNAME=?
+* DOCKER_PASSWORD=?
+* push the changes
