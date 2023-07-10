@@ -90,3 +90,9 @@ mlflow server \
 * logg_production_model stage added to dvc
 * model with best accuracy loaded in mlflow and saved
 
+
+12. **Flask App**
+ * add the required html and css to the project
+ * define app.py
+ * run the app
+
