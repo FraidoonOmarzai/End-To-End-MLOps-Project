@@ -20,11 +20,12 @@ stages:
       md5: 4a60c0849baba34017f32ae754fda827
       size: 67292
   data_ingestion:
-    cmd: python3 src/pipeline/stage_01_data_ingestion.py
+    cmd: python src/pipeline/stage_01_data_ingestion.py
     deps:
     - path: src/pipeline/stage_01_data_ingestion.py
-      md5: 2762e844c85d452b33a614bc94f0ec64
-      size: 1414
+      hash: md5
+      md5: 49db549e7d7f632e5ca4e1da797bb3e0
+      size: 1576
     outs:
     - path: data/raw/healthcare-dataset-stroke-data.csv
       md5: 3f25a4c2f2963d969e1a156c08968577

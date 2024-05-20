@@ -3,7 +3,9 @@ name: workflow
 on:
   push:
     branches:
-      - main
+      # - main
+      - trybranch
+
     paths-ignore:
       - 'README.md'
 
