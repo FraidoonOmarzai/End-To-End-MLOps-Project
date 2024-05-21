@@ -34,7 +34,7 @@ conda activate mlops-env
 pip install -r requirements.txt
 ```
 
-4. define logger (**The Logging** is a means of tracking events that happen when some software runs)
+4. define custom exception and define logger (**The Logging** is a means of tracking events that happen when some software runs)
 
 5. define utils (**The utils.py** makes it easy to execute common tasks in Python scripts)
 
