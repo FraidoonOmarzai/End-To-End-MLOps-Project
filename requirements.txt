@@ -17,3 +17,4 @@ mlflow
 python-box
 ensure
 imbalanced-learn
+xgboost

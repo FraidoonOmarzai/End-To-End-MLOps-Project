@@ -77,6 +77,10 @@ mlflow server \
     --backend-store-uri sqlite:///mlflow.db \
     --default-artifact-root ./artifacts \
     --host 0.0.0.0 -p 1234
+----------------------------------------------------------------
+mlflow server --backend-store-uri sqlite:///mlflow.db  --host 0.0.0.0 -p 1234 --default-artifact-root ./artifacts
+
+
 ```
 * stage_03_training_and_evaluation.py created
 * model_train_evaluation stage added to dvc pipeline

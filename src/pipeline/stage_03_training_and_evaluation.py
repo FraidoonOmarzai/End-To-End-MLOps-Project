@@ -1,5 +1,6 @@
 from src.utils.common import read_yaml
 from src.constants import PARAMS_FILE_PATH
+from src.exception import CustomException
 from src import logger
 
 import pandas as pd
@@ -18,6 +19,7 @@ from sklearn.metrics import (accuracy_score,
 import mlflow
 from pathlib import Path
 import argparse
+import sys
 
 
 class Model_train:
@@ -26,17 +28,20 @@ class Model_train:
         self.config = read_yaml(params_file)
 
     def prepare_train_test(self):
-        train_path = self.config.split_data.train_path
-        test_path = self.config.split_data.test_path
-        df_train = pd.read_csv(train_path)
-        df_test = pd.read_csv(test_path)
+        try:
+            train_path = self.config.split_data.train_path
+            test_path = self.config.split_data.test_path
+            df_train = pd.read_csv(train_path)
+            df_test = pd.read_csv(test_path)
 
-        X_train = df_train.drop(['stroke'], axis=1)
-        y_train = df_train['stroke']
-        X_test = df_test.drop(['stroke'], axis=1)
-        y_test = df_test['stroke']
+            X_train = df_train.drop(['stroke'], axis=1)
+            y_train = df_train['stroke']
+            X_test = df_test.drop(['stroke'], axis=1)
+            y_test = df_test['stroke']
 
-        return (X_train, y_train, X_test, y_test)
+            return (X_train, y_train, X_test, y_test)
+        except Exception as e:
+            raise CustomException(e, sys)
 
     # fun to create confusion matrix
     def create_confusion_matrix_plot(self, clf, y_test, predictions):
@@ -59,68 +64,75 @@ class Model_train:
         plt.savefig('roc_auc_curve.png')
 
     def Mlflow_Model_Hyperparametrs(self):
-        X_train, y_train, X_test, y_test = self.prepare_train_test()
-        logger.info("successfully loaded: X_train, y_train, X_test, y_test")
+        try:
+            X_train, y_train, X_test, y_test = self.prepare_train_test()
+            logger.info(
+                "successfully loaded: X_train, y_train, X_test, y_test")
 
-        remote_server_uri = self.config.mlflow_config.remote_server_uri
-        experiment_name = self.config.mlflow_config.experiment_name
-        run_name = self.config.mlflow_config.run_name
+            remote_server_uri = self.config.mlflow_config.remote_server_uri
+            experiment_name = self.config.mlflow_config.experiment_name
+            run_name = self.config.mlflow_config.run_name
 
-        mlflow.set_tracking_uri(remote_server_uri)
-        mlflow.set_experiment(experiment_name)
+            # mlflow.set_tracking_uri(remote_server_uri) # error...
+            mlflow.set_tracking_uri("http://localhost:1234")
 
-        with mlflow.start_run(run_name=run_name) as mlops_run:
-            # Define a grid of hyperparameters
-            grid = {"n_estimators": [10, 100, 200, 500],
-                    'criterion': ['gini', 'entropy', 'log_loss'],
-                    "max_depth": [None, 5, 10, 20, 30],
-                    "min_samples_split": [2, 4, 6],
-                    "min_samples_leaf": [1, 2, 4]
-                    }
-            # run a randomized search cv
-            rs_RFC = RandomizedSearchCV(estimator=RandomForestClassifier(),
-                                        param_distributions=grid,
-                                        n_iter=5,
-                                        verbose=True)
+            mlflow.set_experiment(experiment_name)
 
-            rs_RFC.fit(X_train, y_train)
-            logger.info("Randomized search cv finished.")
+            with mlflow.start_run(run_name=run_name) as mlops_run:
+                # Define a grid of hyperparameters
+                grid = {"n_estimators": [10, 100, 200, 500],
+                        'criterion': ['gini', 'entropy', 'log_loss'],
+                        "max_depth": [None, 5, 10, 20, 30],
+                        "min_samples_split": [2, 4, 6],
+                        "min_samples_leaf": [1, 2, 4]
+                        }
+                # run a randomized search cv
+                rs_RFC = RandomizedSearchCV(estimator=RandomForestClassifier(),
+                                            param_distributions=grid,
+                                            n_iter=5,
+                                            verbose=True)
 
-            # loging the best params
-            run_params = rs_RFC.best_params_
-            for param in run_params:
-                mlflow.log_param(param, run_params[param])
-            logger.info("log params: %s", run_params)
+                rs_RFC.fit(X_train, y_train)
+                logger.info("Randomized search cv finished.")
 
-            # train RandomForest with best params
-            model = RandomForestClassifier(**run_params)
-            model.fit(X_train, y_train)
-            logger.info("Training RandomForest with best params")
+                # loging the best params
+                run_params = rs_RFC.best_params_
+                for param in run_params:
+                    mlflow.log_param(param, run_params[param])
+                logger.info("log params: %s", run_params)
 
-            y_pred = model.predict(X_test)
-            acu = accuracy_score(y_test, y_pred)
-            f1score = f1_score(y_test, y_pred)
+                # train RandomForest with best params
+                model = RandomForestClassifier(**run_params)
+                model.fit(X_train, y_train)
+                logger.info("Training RandomForest with best params")
 
-            # loging accuracy and f1_score
-            mlflow.log_metric("acu", acu)
-            mlflow.log_metric("f1_score", f1score)
-            logger.info("logging accuracy and f1_score")
+                y_pred = model.predict(X_test)
+                acu = accuracy_score(y_test, y_pred)
+                f1score = f1_score(y_test, y_pred)
 
-            # confusion matrix
-            self.create_confusion_matrix_plot(model, y_test, y_pred)
-            mlflow.log_artifact('confusion_matrix.png', 'confusion_materix')
-            logger.info("confusion_matrix.png added")
+                # loging accuracy and f1_score
+                mlflow.log_metric("acu", acu)
+                mlflow.log_metric("f1_score", f1score)
+                logger.info("logging accuracy and f1_score")
 
-            # roc curve plot
-            self.create_roc_auc_plot(y_test, y_pred)
-            mlflow.log_artifact('roc_auc_curve.png', "roc_auc_plot")
-            logger.info("roc_auc_curve.png added")
+                # confusion matrix
+                self.create_confusion_matrix_plot(model, y_test, y_pred)
+                mlflow.log_artifact('confusion_matrix.png',
+                                    'confusion_materix')
+                logger.info("confusion_matrix.png added")
 
-            # Save the model using mlflow.<framework>.log_model()
-            mlflow.sklearn.log_model(sk_model=model, 
-                                     artifact_path='models_mlflow', 
-                                     registered_model_name=self.config.mlflow_config.registered_model_name)
-            logger.info("Model saved")
+                # roc curve plot
+                self.create_roc_auc_plot(y_test, y_pred)
+                mlflow.log_artifact('roc_auc_curve.png', "roc_auc_plot")
+                logger.info("roc_auc_curve.png added")
+
+                # Save the model using mlflow.<framework>.log_model()
+                mlflow.sklearn.log_model(sk_model=model,
+                                         artifact_path='models_mlflow',
+                                         registered_model_name=self.config.mlflow_config.registered_model_name)
+                logger.info("Model saved")
+        except Exception as e:
+            raise CustomException(e, sys)
 
 
 if __name__ == "__main__":
