@@ -18,9 +18,9 @@ split_data:
 
 mlflow_config:
   artifacts_dir: artifacts
-  experiment_name: Random_Forest
-  run_name: mlops
-  registered_model_name: Random_Forest_Register
+  experiment_name: mlops
+  run_name: Random_Forest
+  registered_model_name: RF_Register
   remote_server_uri: http://0.0.0.0:1234
 
 webapp_model_dir: saved_models/model.joblib

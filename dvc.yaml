@@ -15,16 +15,16 @@ stages:
       - data/processed/train_stroke.csv
       - data/processed/test_stroke.csv
 
-  # model_train_evaluation:
-  #   cmd: python3 src/pipeline/stage_03_training_and_evaluation.py
-  #   deps:
-  #     - src/pipeline/stage_03_training_and_evaluation.py
-  #     - data/processed/train_stroke.csv
-  #     - data/processed/test_stroke.csv
+  model_train_evaluation:
+    cmd: python src/pipeline/stage_03_training_and_evaluation.py
+    deps:
+      - src/pipeline/stage_03_training_and_evaluation.py
+      - data/processed/train_stroke.csv
+      - data/processed/test_stroke.csv
 
-  # log_production_models:
-  #   cmd: python3 src/pipeline/stage_04_log_production_model.py
-  #   deps:
-  #     - src/pipeline/stage_04_log_production_model.py
-  #   outs:
-  #     - saved_models/model.joblib
+  log_production_models:
+    cmd: python src/pipeline/stage_04_log_production_model.py
+    deps:
+      - src/pipeline/stage_04_log_production_model.py
+    outs:
+      - saved_models/model.joblib

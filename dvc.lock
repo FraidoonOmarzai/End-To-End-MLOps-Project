@@ -50,24 +50,29 @@ stages:
       md5: 07cd345184fa2dd59abda6b645aae411
       size: 257216
   model_train_evaluation:
-    cmd: python3 src/pipeline/stage_03_training_and_evaluation.py
+    cmd: python src/pipeline/stage_03_training_and_evaluation.py
     deps:
     - path: data/processed/test_stroke.csv
-      md5: bd6c3283e4b1e75fb46c26cb01e6dd99
-      size: 62466
+      hash: md5
+      md5: 7768ddbafe213d8a85084655e449e75d
+      size: 64396
     - path: data/processed/train_stroke.csv
-      md5: 31a0447a5703c3f28b57fbe810aae8b9
-      size: 249433
+      hash: md5
+      md5: 07cd345184fa2dd59abda6b645aae411
+      size: 257216
     - path: src/pipeline/stage_03_training_and_evaluation.py
-      md5: c718d72b72379371e9eb8566b6e627cf
-      size: 5066
+      hash: md5
+      md5: 48de543a81f5d70a5fb823a042b2d7ba
+      size: 5800
   log_production_models:
-    cmd: python3 src/pipeline/stage_04_log_production_model.py
+    cmd: python src/pipeline/stage_04_log_production_model.py
     deps:
     - path: src/pipeline/stage_04_log_production_model.py
-      md5: 3b4007d8b70ff12a1ecdf83730b2320e
-      size: 2265
+      hash: md5
+      md5: 03ed6a21ad09d54ae1e25adf6a1c14ce
+      size: 2485
     outs:
     - path: saved_models/model.joblib
-      md5: 8a31635da2a2a6b68eee047a6ecad10e
-      size: 6737968
+      hash: md5
+      md5: 4375b2dd0c97fb608493afa289446b67
+      size: 728836

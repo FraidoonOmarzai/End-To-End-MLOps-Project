@@ -21,9 +21,12 @@ class Log_Production_Model:
         model_name = config.mlflow_config.registered_model_name
 
         remote_server_uri = config.mlflow_config.remote_server_uri
-        mlflow.set_tracking_uri(remote_server_uri)
+        # mlflow.set_tracking_uri(remote_server_uri)
+        mlflow.set_tracking_uri("http://localhost:1234")
+        
 
-        runs = mlflow.search_runs(experiment_ids=[0, 1, 2])
+        # runs = mlflow.search_runs(experiment_ids=[0, 1, 2])
+        runs = mlflow.search_runs(experiment_ids=[3])
         highest = runs["metrics.acu"].sort_values(
             ascending=False, ignore_index=True)[0]
         highest_run_id = runs[runs["metrics.acu"] == highest]["run_id"]
